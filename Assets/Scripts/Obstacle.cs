@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,17 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     private MeshRenderer _mesh;
-
+    
     private void Awake()
     {
         _mesh = GetComponent<MeshRenderer>();
     }
+
+    private void Update()
+    {
+        transform.Rotate(Vector3.up * Time.deltaTime * 50f);
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         Debug.Log("Duvara çarptı.");
@@ -21,4 +28,5 @@ public class Obstacle : MonoBehaviour
         yield return new WaitForSeconds (3f);
         _mesh.material.color = Color.clear;
     }
+    
 }
