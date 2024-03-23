@@ -8,8 +8,11 @@ public class Scorer : MonoBehaviour
     private int _score;
     private void OnCollisionEnter(Collision other)
     {
-        _score++;
-        Debug.Log(_score + "tane çarpma gerçekleşti");
+        if (!other.gameObject.CompareTag("Hit"))
+        {
+            _score++;
+            Debug.Log(_score + "tane çarpma gerçekleşti");
+        }
     }
     
 }

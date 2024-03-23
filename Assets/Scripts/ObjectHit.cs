@@ -14,7 +14,10 @@ public class ObjectHit : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Duvara çarptı.");
-        _mesh.material.color = Color.red;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            _mesh.material.color = Color.red;
+            gameObject.tag = "Hit";
+        }        
     }
 }
