@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +9,9 @@ public class Plunger : MonoBehaviour
     private float minPower = 0f;
     public float maxPower = 100f;
     public Slider powerSlider;
-    private List<Rigidbody> ballList;
+    public List<Rigidbody> ballList;
     private bool ballReady;
+
     void Start()
     {
         powerSlider.minValue = 0f;
@@ -19,7 +19,6 @@ public class Plunger : MonoBehaviour
         ballList = new List<Rigidbody>();
     }
 
-   
     void Update()
     {
         if (ballReady)
@@ -47,6 +46,7 @@ public class Plunger : MonoBehaviour
                 {
                     r.AddForce(power * Vector3.forward);
                 }
+                power = 0f; // Kuvvet uygulandıktan sonra gücü sıfırla
             }
         }
         else
@@ -61,14 +61,19 @@ public class Plunger : MonoBehaviour
         if (other.gameObject.CompareTag("Ball"))
         {
             ballList.Add(other.gameObject.GetComponent<Rigidbody>());
+            powerSlider.gameObject.SetActive(true);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Ball"))
         {
             ballList.Remove(other.gameObject.GetComponent<Rigidbody>());
-            power = 0f;
+            if (ballList.Count == 0)
+            {
+                powerSlider.gameObject.SetActive(false);
+            }
         }
     }
 }
