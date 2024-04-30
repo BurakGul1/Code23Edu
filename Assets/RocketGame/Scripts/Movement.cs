@@ -8,10 +8,14 @@ public class Movement : MonoBehaviour
     private Quaternion _originalRotation;
     [SerializeField] private float _mainThrust = 1000f;
     [SerializeField] private float _rotationThrust = 60f; // Maksimum dönüş açısı
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _mainEngine;
+    private bool _isAlive;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
         _originalRotation = transform.rotation;
 
         // Rigidbody constraints ayarları
@@ -53,16 +57,14 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             _rb.AddRelativeForce(Vector3.up * _mainThrust * Time.deltaTime);
-            Debug.Log("Pressed Space - Thrusting");            
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.PlayOneShot(_mainEngine);
+            }
         }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        // Yere çarpınca roketi düzelt
-        if (collision.gameObject.CompareTag("Ground"))
+        else
         {
-            transform.up = Vector3.up; // Yere dik olarak hizala
+            _audioSource.Stop();
         }
     }
 }

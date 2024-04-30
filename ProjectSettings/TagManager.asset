@@ -8,6 +8,8 @@ TagManager:
   - Ball
   - Wall
   - Ground
+  - Friendly
+  - Fuel
   layers:
   - Default
   - TransparentFX
